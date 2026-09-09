@@ -314,7 +314,16 @@ def _train(args: TrainArgs, exit_stack: ExitStack):
         if args.do_eval and (
             (args.eval_freq > 0 and state.step % args.eval_freq == 0) or is_last_step
         ):
-            # write perplexity to state
+            optimizer.zero_grad(set_to_none=True)
+            eval_data_loader = build_data_loader(
+                instruct_tokenizer=interleaved_tokenizer,
+                args=args.data,
+                batch_size=args.batch_size,
+                seed=None,
+                rank=get_rank(),
+                world_size=get_world_size(),
+                is_eval=True,
+            )
             evaluate(model, eval_data_loader, state, args)
 
             eval_logs = get_eval_logs(
