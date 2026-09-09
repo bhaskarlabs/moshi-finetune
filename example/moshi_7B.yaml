@@ -1,49 +1,47 @@
 # data
 data:
-  eval_data: '' # Optional Fill
+  eval_data: "/workspace/manifests/eval.jsonl"   # held-out calls, same convert+flip flow
   shuffle: true
-  train_data: '' # Fill
+  train_data: "/workspace/manifests/train.jsonl"       # flipped wavs, B = SPEAKER_MAIN on left
+
 
 # model
-moshi_paths: 
+moshi_paths:
   hf_repo_id: "kyutai/moshiko-pytorch-bf16"
-
-full_finetuning: false # Activate lora.enable if partial finetuning
+full_finetuning: true
 lora:
-  enable: true # Set to False if full_finetuning is True
+  enable: false
   rank: 128
   scaling: 2.
-  ft_embed: false # Optional, set to True if you want to finetune the embedding layer
-
+  ft_embed: false
 first_codebook_weight_multiplier: 100.
 text_padding_weight: .5
 
+
 # optim
-duration_sec: 100
-batch_size: 16
-max_steps: 2000
+duration_sec: 60
+batch_size: 2
+num_microbatches: 2
+max_steps: 351
 gradient_checkpointing: true
 optim:
   lr: 2e-6
   weight_decay: 0.1
-  pct_start: 0.05
+  pct_start: 0.14
+
 
 # other
-seed: 0
+seed: 42
 log_freq: 1
-eval_freq: 100
-do_eval: false
+eval_freq: 39
+do_eval: true
 do_ckpt: true
-ckpt_freq: 100
+ckpt_freq: 39
+save_adapters: false
+run_dir: "/workspace/moshi-ft-models/english-orig-run0"
+overwrite_run_dir: true
 
 
-save_adapters: true # Must be False if full_finetuning is True
-
-run_dir: ""  # Fill
-
-# This part is optional and can be kept commented out
-# wandb:
-#   project: "" # your wandb project name
-#   run_name: "" # your wandb run name
-#   key: "" # your wandb api key
-#   offline: False
+wandb:
+  project: "moshi_pre_training_english_new_code"
+  run_name: "new_code_test_run_10hrs"
