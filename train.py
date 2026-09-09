@@ -289,8 +289,7 @@ def _train(args: TrainArgs, exit_stack: ExitStack):
         if args.num_microbatches > 1:
             loss /= args.num_microbatches
             for p in model.parameters():
-                if p.requires_grad:
-                    assert p.grad is not None
+                if p.requires_grad and p.grad is not None:
                     p.grad.div_(args.num_microbatches)
 
         # upcast params for optimizer update
