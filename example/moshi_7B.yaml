@@ -1,8 +1,8 @@
 # data
 data:
-  eval_data: "/workspace/manifests/eval.jsonl"   # held-out calls, same convert+flip flow
+  eval_data: "/workspace/manifests/eval.jsonl"
   shuffle: true
-  train_data: "/workspace/manifests/train.jsonl"       # flipped wavs, B = SPEAKER_MAIN on left
+  train_data: "/workspace/manifests/train.jsonl"
 
 
 # model
@@ -19,7 +19,7 @@ text_padding_weight: .5
 
 
 # optim
-duration_sec: 60
+duration_sec: 163.84
 batch_size: 2
 num_microbatches: 2
 max_steps: 351
